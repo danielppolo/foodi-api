@@ -1,0 +1,463 @@
+{
+  "second_layer": "300000133-1507328894.png",
+  "max_quantity": 0,
+  "validate_access": false,
+  "price_index": 3,
+  "open_time": "10:15:00",
+  "price_range": "",
+  "zone_id": 952865,
+  "eta": "39 min",
+  "eta_value": 39,
+  "popularity": 0,
+  "schedules": [
+    {
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    }
+  ],
+  "logo": "300000133-1507328641.png",
+  "id": "990006919_952865",
+  "store_id": 990006919,
+  "only_prime": false,
+  "index": 122,
+  "brand_name": "Which Wich",
+  "close_time": "20:30:00",
+  "store_type": "restaurant",
+  "version": 0,
+  "has_promise": false,
+  "tags": [
+    35057
+  ],
+  "split_order": false,
+  "layout_store_id": 990006918,
+  "background": "990006918-1520529875.png",
+  "friendly_url": {
+    "friendly_url": "which-wich---oasis",
+    "store_id": 990006919
+  },
+  "name": "Which Wich - Delta",
+  "percentage_service_fee": 0,
+  "has_comments": false,
+  "is_available": true,
+  "delivery_price": 40,
+  "experiments": [],
+  "discount_tags": [],
+  "rating": {
+    "store_id": 990006919,
+    "score": 4.3,
+    "total_reviews": 73
+  },
+  "saturation": {
+    "store_id": 990006919,
+    "saturations": {
+      "geographical": "none",
+      "store": "none"
+    },
+    "eta": {
+      "value": 39,
+      "action": 0
+    },
+    "price": {
+      "value": 0,
+      "action": 0
+    },
+    "switches": {
+      "high_demand": 0,
+      "cash": 1,
+      "checkout_confirmation": 0,
+      "pos": 1
+    },
+    "cooking_time": 17,
+    "distance": 3000,
+    "weight": {
+      "value": 0,
+      "action": 0
+    }
+  },
+  "delivery_methods": [
+    "delivery"
+  ],
+  "location": [
+    -99.15392,
+    19.402845
+  ],
+  "friends_orders_count": 0,
+  "address": "Av. Cuauhtémoc #462, loc FC-11, Col Narvarte, c.p. 03020, Del. Benito Juárez, CDMX, México\t",
+  "normalized_index": 122,
+  "normalized_old_index": 122,
+  "old_index": -60,
+  "is_currently_available": true,
+  "brand_id": 2065,
+  "zone_size": 7,
+  "elastic_version": 1569481200000,
+  "complete_schedules": [
+    {
+      "day": "hol",
+      "open_time": "12:00:00",
+      "close_time": "12:01:00"
+    },
+    {
+      "day": "mon",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "tue",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "wed",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "thu",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "fri",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "sat",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "sun",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    },
+    {
+      "day": "hol",
+      "open_time": "10:15:00",
+      "close_time": "20:30:00"
+    }
+  ],
+  "is_enabled": false,
+  "is_main": false,
+  "is_exclusive": false,
+  "is_open_today": true,
+  "is_marketplace": false,
+  "is_open": true,
+  "meals": [
+    {
+      "name": "Sándwich Wicked",
+      "description": "Sándwich de pavo, jamón, roast beef, pepperoni, tocino, queso amarillo, mozzarella, manchego, lechuga, jitomate, cebolla morada y salsa wich.",
+      "price": 123,
+      "img": "https://images.rappi.com.mx/products/976284632-1566252715648.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sándwich de Ahogado",
+      "description": "Sándwich de carnitas, cebolla preparada, aguacate, frijoles refritos y salsa de chile de árbol.",
+      "price": 129,
+      "img": "https://images.rappi.com.mx/products/976286178-1566252723407.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sándwich de Pollo Búfalo y Ranch",
+      "description": "Sándwich de pechuga de pollo empanizada, queso manchego, lechuga, jitomate, salsa búfalo y ranch.",
+      "price": 113,
+      "img": "https://images.rappi.com.mx/products/976286229-1566252723491.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sándwich PizzaWich",
+      "description": "Sándwich de pepperoni, queso mozzarella, champiñones, aceitunas negras, pimientos verdes y salsa marinara.",
+      "price": 92,
+      "img": "https://images.rappi.com.mx/products/976286263-1566252723583.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sándwich PepiWich",
+      "description": "Sándwich de res deshebrada, queso amarillo, frijoles refritos, aguacate y jitomate.",
+      "price": 123,
+      "img": "https://images.rappi.com.mx/products/976286277-1566252723716.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sándwich de Pavo Especial",
+      "description": "Sándwich de pavo, queso gruyere, aguacate, lechuga, jitomate y salsa wich.",
+      "price": 121
+    },
+    {
+      "name": "Sándwich Pastrami",
+      "description": "Sándwich de pan de centeno, pastrami, queso gruyere y mostaza dijon.",
+      "price": 153
+    },
+    {
+      "name": "Sándwich Caliclub",
+      "description": "Sándwich de fajitas de pollo, tocino caramelizado, queso manchego, aguacate, lechuga, jitomate y mayonesa.",
+      "price": 129
+    },
+    {
+      "name": "Sándwich Alambre",
+      "description": "Sándwich de roast beef, queso manchego, pimientos salteados y cebolla caramelizada.",
+      "price": 120
+    },
+    {
+      "name": "Sándwich de Aguacate y Hummus",
+      "description": "Sándwich de aguacate, hummus, queso amarillo, cebolla morada, pepino y jitomate.",
+      "price": 92
+    },
+    {
+      "name": "Crea el Tuyo Regular ",
+      "description": "Personaliza tu sandwich regular de 18 cm.",
+      "price": 92
+    },
+    {
+      "name": "Crea el Tuyo Grande",
+      "description": "Personaliza tu sandwich regular de 27 cm.",
+      "price": 138
+    },
+    {
+      "name": "Wrap de Ahogado",
+      "description": "Wrap de tortilla de espinaca con carnitas, cebolla preparada, aguacate, frijoles refritos y salsa de chile de árbol.",
+      "price": 141
+    },
+    {
+      "name": "Wrap Wicked",
+      "description": "Wrap de tortilla de espinaca con pavo, jamón, roast beef, pepperoni, tocino, queso amarillo, mozzarella, manchego, lechuga, jitomate, cebolla morada y salsa which.",
+      "price": 135
+    },
+    {
+      "name": "Wrap Pizzawich",
+      "description": "Wrap de tortilla de espinaca con queso mozzarella, champiñones, aceitunas negras, pimientos verdes y salsa marinara.",
+      "price": 104
+    },
+    {
+      "name": "Wrap de Pollo Búfalo y Ranch",
+      "description": "Wrap de tortilla de espinaca con pechuga de pollo empanizada, queso manchego, lechuga, jitomate, salsa búfalo y ranch.",
+      "price": 125
+    },
+    {
+      "name": "Wrap Pepiwich",
+      "description": "Wrap de tortilla de espinaca con res deshebrada, queso amarillo, frijoles refritos, aguacate y jitomate.",
+      "price": 135
+    },
+    {
+      "name": "Wrap de Pavo Especial",
+      "description": "Wrap de tortilla de espinaca con pavo, queso gruyere, aguacate, lechuga, jitomate y salsa which.",
+      "price": 134
+    },
+    {
+      "name": "Wrap Pastrami ",
+      "description": "Wrap de tortilla de espinaca con pan de centeno, pastrami, queso gruyere y mostaza dijon.",
+      "price": 166
+    },
+    {
+      "name": "Wrap Caliclub",
+      "description": "Wrap de tortilla de espinaca con fajitas de pollo, tocino caramelizado, queso manchego, aguacate, lechuga, jitomate y mayonesa.",
+      "price": 141
+    },
+    {
+      "name": "Wrap Alambre",
+      "description": "Wrap de tortilla de espinaca con roast beef, queso manchego, pimientos salteados y cebolla caramelizada.",
+      "price": 132
+    },
+    {
+      "name": "Wrap de Aguacate y Hummus",
+      "description": "Wrap de tortilla de espinaca con aguacate, hummus, queso amarillo, cebolla morada, pepino y jitomate.",
+      "price": 104
+    },
+    {
+      "name": "Wrap Crea el Tuyo",
+      "description": "Wrap de tortilla de espinaca con carnitas, cebolla preparada, aguacate, frijoles refritos y salsa de chile de árbol.",
+      "price": 92
+    },
+    {
+      "name": "Charola Tradicional",
+      "description": "Wich Tray tradicional para 10 - 12 personas con variedad de sándwiches: pavo, jamón, roast beef, aguacate & hummus, pollo y atún.",
+      "price": 977
+    },
+    {
+      "name": "Charola Especial",
+      "description": "Wich Tray especial para 10 - 12 personas con variedad de sándwiches: Grinder, pollo, pavo especial, caprese, club y pizzawich.",
+      "price": 977
+    },
+    {
+      "name": "Combo 6",
+      "description": "Combo 6 incluye wiches, papas y galletas para 6 personas.",
+      "price": 862
+    },
+    {
+      "name": "Combo 10",
+      "description": "Combo 10 incluye wiches, papas y galletas para 10 personas.",
+      "price": null
+    },
+    {
+      "name": "Ensalada de Espinaca",
+      "description": "Ensalada de espinaca para 8 personas. Combinación de espinaca, tocino, jitomate y queso panela.",
+      "price": 690
+    },
+    {
+      "name": "Ensalada del Chef",
+      "description": "Ensalada del chef para 8 personas. Combinación de pavo, jamón, queso amarillo, queso manchego, jitomate y pepino.",
+      "price": 690
+    },
+    {
+      "name": "Ensalada de Ahogado",
+      "description": "Ensalada de carnitas, cebolla preparada, aguacate, frijoles refritos y salsa de chile de árbol.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976364868-1569611561.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Ensalada Wicked",
+      "description": "Ensalada de pavo, jamón, roast beef, pepperoni, tocino, queso amarillo, mozzarella, manchego, lechuga, jitomate, cebolla morada y salsa wich.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976284632-1566252715648.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Ensalada de Pollo Búfalo y Ranch",
+      "description": "Eensalada de pechuga de pollo empanizada, queso manchego, lechuga, jitomate, salsa búfalo y ranch.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976364883-1569611409.png?d=200x200&e=webp"
+    },
+    {
+      "name": " Ensalada PizzaWich",
+      "description": "Ensalada de pepperoni, queso mozzarella, champiñones, aceitunas negras, pimientos verdes y salsa marinara.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976364901-1569611507.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Ensalada PepiWich",
+      "description": "Eensalada de res deshebrada, queso amarillo, frijoles refritos, aguacate y jitomate.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976364906-1569610831.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Ensalada de Pavo Especial",
+      "description": "Ensalada de pavo, queso gruyere, aguacate, lechuga, jitomate y salsa wich.",
+      "price": 141,
+      "img": "https://images.rappi.com.mx/products/976364919-1569611621.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Ensalada Pastrami",
+      "description": "Ensalada de pan de centeno, pastrami, queso gruyere y mostaza dijon.",
+      "price": 153
+    },
+    {
+      "name": "Ensalada Caliclub",
+      "description": "Ensalada de fajitas de pollo, tocino caramelizado, queso manchego, aguacate, lechuga, jitomate y mayonesa.",
+      "price": 129
+    },
+    {
+      "name": "Ensalada Alambre",
+      "description": "Ensalada de roast beef, queso manchego, pimientos salteados y cebolla caramelizada.",
+      "price": 120
+    },
+    {
+      "name": "Ensalada de Aguacate y Hummus",
+      "description": "Ensalada de aguacate, hummus, queso amarillo, cebolla morada, pepino y jitomate.",
+      "price": 92
+    },
+    {
+      "name": "Papas Fritas",
+      "description": "Papas Fritas. Elige tu snack favorito.",
+      "price": 40,
+      "img": "https://images.rappi.com.mx/products/976285042-1566252716123.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Chips Adobadas",
+      "description": "Chips adobadas.",
+      "price": 23
+    },
+    {
+      "name": "Chips Fuego",
+      "description": "Chips fuego.",
+      "price": 23
+    },
+    {
+      "name": "Chips Jalapeño",
+      "description": "Chips jalapeño.",
+      "price": 23
+    },
+    {
+      "name": "Chips Sal",
+      "description": "Chips sal.",
+      "price": 23
+    },
+    {
+      "name": "Takis Fuego",
+      "description": "Takis fuego.",
+      "price": 21
+    },
+    {
+      "name": "Malteada de Chocolate",
+      "description": "Malteada de chocolate en presentación mediana.",
+      "price": 104,
+      "img": "https://images.rappi.com.mx/products/976285051-1566252716208.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Malteada de Vainilla",
+      "description": "Malteada de vainilla en presentación mediana.",
+      "price": 110,
+      "img": "https://images.rappi.com.mx/products/976285066-1566252723048.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Malteada de Fresa",
+      "description": "Malteada de fresa en presentación mediana.",
+      "price": 104,
+      "img": "https://images.rappi.com.mx/products/976285053-1566252716263.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Malteada de Oreo",
+      "description": "Malteada de oreo en presentación mediana.",
+      "price": 110,
+      "img": "https://images.rappi.com.mx/products/976285055-1566252716326.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Galleta de Chocolate",
+      "description": "Galleta de chocolate.",
+      "price": 24,
+      "img": "https://images.rappi.com.mx/products/976285038-1566252715946.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Malteada de Plátano",
+      "description": "Malteada de plátano en presentación mediana.",
+      "price": 104,
+      "img": "https://images.rappi.com.mx/products/976285057-1566252716409.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Brownie",
+      "description": "Brownie.",
+      "price": 36,
+      "img": "https://images.rappi.com.mx/products/976285040-1566252716027.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Galleta de Avena con Pasas y Arándanos",
+      "description": "Galleta de avena con pasas y arándanos.",
+      "price": 24,
+      "img": "https://images.rappi.com.mx/products/976285025-1566252715821.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Agua Ciel ",
+      "description": "Agua ciel de 600 ml.",
+      "price": 34,
+      "img": "https://images.rappi.com.mx/products/976285080-1566252723300.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Agua Ciel Jamaica",
+      "description": "Agua ciel de jamaica en presentación de 600 ml.",
+      "price": 34,
+      "img": "https://images.rappi.com.mx/products/976285081-1566252723347.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Coca-Cola",
+      "description": "Coca-Cola en presentación de lata.",
+      "price": 39,
+      "img": "https://images.rappi.com.mx/products/976285076-1566252723102.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sidral ",
+      "description": "Sidral a elegir, en presentación de lata.",
+      "price": 39,
+      "img": "https://images.rappi.com.mx/products/976285078-1566252723180.png?d=200x200&e=webp"
+    },
+    {
+      "name": "Sprite Zero",
+      "description": "Sprite en presentación de lata.",
+      "price": 39,
+      "img": "https://images.rappi.com.mx/products/976285079-1566252723250.png?d=200x200&e=webp"
+    }
+  ]
+}
