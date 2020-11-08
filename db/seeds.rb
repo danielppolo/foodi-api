@@ -49,6 +49,6 @@
 #   restaurant.save
 # end
 scraper = RappiServices::MexicoCityScrapper.new([19.4065495, -99.179647])
-scraper.restaurants.first(1).each do |r|
-  scraper.details(r)
+scraper.restaurants[:stores].each do |r|
+  scraper.parse_restaurant(r)
 end
