@@ -20,6 +20,7 @@ class Meal < ApplicationRecord
   has_many :restaurant_categories, through: :restaurant
   has_many :meal_categories, dependent: :destroy
   has_many :categories, through: :meal_categories
+  has_one_attached :image
 
   monetize :price_cents,
            allow_nil: true,
@@ -28,13 +29,13 @@ class Meal < ApplicationRecord
              less_than_or_equal_to: 10_000
            }
 
-  alias available? open?
-
   COMMON_WORDS = Hash.new(0)
 
   def open?
     restaurant.open?
   end
+
+  alias available? open?
 
   def delivery?
     restaurant.delivery

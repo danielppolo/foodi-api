@@ -17,8 +17,11 @@ class Restaurant < ApplicationRecord
   has_many :meals, dependent: :destroy
   has_many :restaurant_categories, dependent: :destroy
   has_many :categories, through: :restaurant_categories
+  has_one_attached :image
+  has_one_attached :logotype
 
   geocoded_by :address
+
   after_validation :geocode, if: :will_save_change_to_address?
   after_validation :serialize_schedule, if: :will_save_change_to_friendly_schedule?
 
