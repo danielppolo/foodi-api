@@ -26,7 +26,7 @@ development:
   database: foodi_api_development
   port: 5432
   host: localhost
-  username: postgres
+  username: postgres 
   password: <%= ENV['FOODIE_DATABASE_PASSWORD'] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
