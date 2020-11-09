@@ -42,28 +42,37 @@ module RappiServices
 
     def parse_restaurant(restaurant)
       puts restaurant[:name]
+      logotype, image = nil
       begin
         logotype = URI.open("https://images.rappi.com.mx/restaurants_logo/#{restaurant[:logo]}")
-        image = URI.open("https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}")
-
-        restaurant_instance = Restaurant.new(
-          name: restaurant[:name],
-          address: restaurant[:address],
-          rating: restaurant[:rating][:score],
-          number_of_ratings: restaurant[:rating][:total_reviews],
-          has_delivery: restaurant[:delivery_methods].include?('delivery'),
-          latitude: restaurant[:location][0],
-          longitude: restaurant[:location][1],
-          friendly_schedule: parse_schedules(restaurant[:schedules])
-        )
-
-        restaurant_instance.logotype.attach(io: logotype, filename: "#{restaurant[:name]}.png", content_type: 'image/png')
-        restaurant_instance.image.attach(io: image, filename: "#{restaurant[:name]}.png", content_type: 'image/png')
-        restaurant_instance.save
-        restaurant_instance
       rescue StandardError
-        puts "Couldn't fetch images."
+        puts "Couldn't fetch logotype."
       end
+      begin
+        image = URI.open("https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}")
+      rescue StandardError
+        puts "Couldn't fetch cover picture."
+      end
+
+      restaurant_instance = Restaurant.new(
+        name: restaurant[:name],
+        address: restaurant[:address],
+        rating: restaurant[:rating][:score],
+        number_of_ratings: restaurant[:rating][:total_reviews],
+        has_delivery: restaurant[:delivery_methods].include?('delivery'),
+        latitude: restaurant[:location][0],
+        longitude: restaurant[:location][1],
+        friendly_schedule: parse_schedules(restaurant[:schedules])
+      )
+
+      if logotype
+        restaurant_instance.logotype.attach(io: logotype, filename: "#{restaurant[:name]}.png", content_type: 'image/png')
+      end
+      if image
+        restaurant_instance.image.attach(io: image, filename: "#{restaurant[:name]}.png", content_type: 'image/png')
+      end
+      restaurant_instance.save
+      restaurant_instance
     end
 
     def parse_categories(list)
