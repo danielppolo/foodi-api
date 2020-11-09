@@ -2,7 +2,7 @@ require 'date'
 require 'json'
 
 class Restaurant < ApplicationRecord
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { scope: :address }
   validates :address, presence: true
   validates :friendly_schedule, presence: true, schedule: true
   validates :logotype, presence: true
@@ -12,6 +12,7 @@ class Restaurant < ApplicationRecord
 
   # enum serving_methods: %i[in_place delivery]
   enum popularity: %i[low medium high]
+  enum store_type: %i[restaurant dark_kitchen]
 
   has_many :meals, dependent: :destroy
   has_many :restaurant_categories, dependent: :destroy
@@ -26,8 +27,7 @@ class Restaurant < ApplicationRecord
   end
 
   def self.filter_by_time
-    # TODO:
-    # Meal.where()
+    # Restaurant.
   end
 
   def coordinates

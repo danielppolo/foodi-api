@@ -18,18 +18,17 @@ module RappiServices
         body: restaurants_body.to_json,
         headers: headers
       )
-      data = JSON.parse response.body, symbolize_names: true
+      data = JSON.parse(response.body, symbolize_names: true)
       data[:stores].map { |store| store[:friendly_url][:friendly_url] }
     end
 
     def parse(slug)
-      puts slug
       response = HTTParty.post(
         BASE_URL + RESTAURANT_ENDPOINT + slug,
         body: restaurants_body.to_json,
         headers: headers
       )
-      data = JSON.parse response.body, symbolize_names: true
+      data = JSON.parse(response.body, symbolize_names: true)
       categories = parse_categories(data[:tags])
       restaurant = parse_restaurant(data)
       create_restaurant_categories(restaurant, categories)
@@ -41,19 +40,15 @@ module RappiServices
     def parse_restaurant(response)
       Restaurant.create!(
         name: response[:name],
-        # description: ,
         logotype: "https://images.rappi.com.mx/restaurants_logo/#{response[:logo]}",
         image: "https://images.rappi.com.mx/restaurants_background/#{response[:background]}",
         address: response[:address],
         rating: response[:rating][:score],
+        number_of_ratings: response[:rating][:total_reviews],
         has_delivery: response[:delivery_methods].include?('delivery'),
-        # store_type: ,
-        # has_venue: ,
-        # is_active: ,
         latitude: response[:location][0],
         longitude: response[:location][1],
         friendly_schedule: parse_schedules(response[:schedules])
-        # popularity: ,
       )
     end
 
@@ -81,8 +76,8 @@ module RappiServices
             description: meal['description'],
             image: "https://images.rappi.com.mx/products/#{meal['image']}",
             price: meal['price'],
-            # popularity: ,
-            # preparation_time: ,
+            quantity: meal['quantity'],
+            preparation_time: response['saturation']['cooking_time'],
             restaurant: restaurant
           )
           MealCategory.create!(meal: meal_instance, category: category) if meal_instance.id

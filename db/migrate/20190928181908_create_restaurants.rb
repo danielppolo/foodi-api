@@ -10,7 +10,8 @@ class CreateRestaurants < ActiveRecord::Migration[5.2]
       t.string :address
       t.string :description
       t.boolean :has_delivery, default: false
-      t.integer :rating
+      t.integer :number_of_ratings, default: 0
+      t.integer :rating, default: 0
       t.float :latitude
       t.float :longitude
       t.boolean :is_active, default: true

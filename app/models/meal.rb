@@ -6,12 +6,12 @@ class Meal < ApplicationRecord
   validates :description, presence: true
   validates :image, presence: true
   validates :restaurant, presence: true
-  # validates :preparation_time,
-  #           presence: true,
-  #           numericality: {
-  #             only_integer: true,
-  #             greater_than: 0
-  #           }
+  validates :preparation_time,
+            presence: true,
+            numericality: {
+              only_integer: true,
+              greater_than: 0
+            }
   # validates :has_delivery, presence: true
 
   belongs_to :restaurant
@@ -27,6 +27,8 @@ class Meal < ApplicationRecord
              greater_than_or_equal_to: 0,
              less_than_or_equal_to: 10_000
            }
+
+  alias available? open?
 
   COMMON_WORDS = Hash.new(0)
 
