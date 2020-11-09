@@ -8,8 +8,7 @@ module RappiServices
     TOKEN_ENDPOINT = '/auth/guest_access_token'.freeze
 
     def initialize(coordinates)
-      @lat = coordinates[0]
-      @lng = coordinates[1]
+      @lat, @lng = coordinates
       auth
     end
 
@@ -19,69 +18,88 @@ module RappiServices
         body: restaurants_body.to_json,
         headers: headers
       )
-      JSON.parse response.body, symbolize_names: true
-      # data[:stores].map { |store| store[:friendly_url][:friendly_url] }
+      data = JSON.parse response.body, symbolize_names: true
+      data[:stores].map { |store| store[:friendly_url][:friendly_url] }
     end
 
     def parse(slug)
+      puts slug
       response = HTTParty.post(
         BASE_URL + RESTAURANT_ENDPOINT + slug,
         body: restaurants_body.to_json,
         headers: headers
       )
       data = JSON.parse response.body, symbolize_names: true
-      parse_restaurant(data)
+      categories = parse_categories(data[:tags])
+      restaurant = parse_restaurant(data)
+      create_restaurant_categories(restaurant, categories)
+      parse_meals(response, restaurant)
     end
 
-    # private
+    private
 
     def parse_restaurant(response)
-      parse_schedules(response[:schedules])
-      # Restaurant.create(
-      #   name: response[:name],
-      #   # description: ,
-      #   image: "https://images.rappi.com.mx/restaurants_background/#{response[:background]}",
-      #   address: response[:address],
-      #   rating: response[:rating][:score],
-      #   has_delivery: response[:delivery_methods].include?("delivery"),
-      #   store_type: ,
-      #   has_venue: ,
-      #   is_active: ,
-      #   latitude: response[:location][0],
-      #   longitude: response[:location][1],
-      #   schedule: parse_schedules(response[:schedules]),
-      #   popularity: ,
-      # )
+      Restaurant.create!(
+        name: response[:name],
+        # description: ,
+        logotype: "https://images.rappi.com.mx/restaurants_logo/#{response[:logo]}",
+        image: "https://images.rappi.com.mx/restaurants_background/#{response[:background]}",
+        address: response[:address],
+        rating: response[:rating][:score],
+        has_delivery: response[:delivery_methods].include?('delivery'),
+        # store_type: ,
+        # has_venue: ,
+        # is_active: ,
+        latitude: response[:location][0],
+        longitude: response[:location][1],
+        friendly_schedule: parse_schedules(response[:schedules])
+        # popularity: ,
+      )
     end
 
-    # def parse_meal(response)
-    #   Meal.create(
-    #     name: ,
-    #     description: ,
-    #     image: ,
-    #     price_cents: ,
-    #     popularity: ,
-    #     preparation_time: ,
-    #     restaurant: ,
-    #   )
-    # end
+    def parse_categories(list)
+      list.map do |category|
+        Category.find_by(name: category[:name].downcase) || Category.create!(name: category[:name].downcase)
+      end
+    end
+
+    def create_restaurant_categories(restaurant, categories)
+      categories.map do |category|
+        RestaurantCategory.create!(
+          restaurant: restaurant,
+          category: category
+        )
+      end
+    end
+
+    def parse_meals(response, restaurant)
+      response['corridors'].each do |group|
+        category = Category.find_by(name: group['name'].downcase) || Category.create!(name: group['name'].downcase)
+        group['products'].each do |meal|
+          meal_instance = Meal.create(
+            name: meal['name'],
+            description: meal['description'],
+            image: "https://images.rappi.com.mx/products/#{meal['image']}",
+            price: meal['price'],
+            # popularity: ,
+            # preparation_time: ,
+            restaurant: restaurant
+          )
+          MealCategory.create!(meal: meal_instance, category: category) if meal_instance.id
+        end
+      end
+    end
 
     def parse_schedules(schedules)
-      if schedules.size == 1
-        open_time = schedules[0][:open_time]
-        close_time = schedules[0][:close_time]
-        schedule = [open_time, close_time]
-        return {
-          monday: schedule,
-          tuesday: schedule,
-          wednesday: schedule,
-          thursday: schedule,
-          friday: schedule,
-          saturday: schedule,
-          sunday: schedule
-        }
+      week_schedule = {}
+      schedule = []
+      schedules.each do |s|
+        schedule << [s[:open_time], s[:close_time]]
       end
-      puts schedules.inspect
+      Date::DAYNAMES.each do |day|
+        week_schedule[day.downcase] = schedule
+      end
+      week_schedule
     end
 
     def headers

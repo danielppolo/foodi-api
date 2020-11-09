@@ -6,18 +6,20 @@ class Meal < ApplicationRecord
   validates :description, presence: true
   validates :image, presence: true
   validates :restaurant, presence: true
-  validates :preparation_time,
-            presence: true,
-            numericality: {
-              only_integer: true,
-              greater_than: 0
-            }
+  # validates :preparation_time,
+  #           presence: true,
+  #           numericality: {
+  #             only_integer: true,
+  #             greater_than: 0
+  #           }
   # validates :has_delivery, presence: true
 
   belongs_to :restaurant
   has_many :portions
   has_many :ingredients, through: :portions
-  has_many :cuisines, through: :restaurants
+  has_many :restaurant_categories, through: :restaurant
+  has_many :meal_categories, dependent: :destroy
+  has_many :categories, through: :meal_categories
 
   monetize :price_cents,
            allow_nil: true,
@@ -54,9 +56,9 @@ class Meal < ApplicationRecord
     # TODO:
     # categories = []
     # Restaurant.near([cookies[:lat].to_f, cookies[:lng].to_f], search_radius).each do |restaurant|
-    #   restaurant.meals.each do |meal| 
-    #     meal.category.split(" ").each do |category| 
-    #       categories << category if category.length > 3 
+    #   restaurant.meals.each do |meal|
+    #     meal.category.split(" ").each do |category|
+    #       categories << category if category.length > 3
     #     end
     #   end
     # end
@@ -95,7 +97,6 @@ class Meal < ApplicationRecord
   end
 end
 
-
 # def available?
 #   self.restaurant.open?
 # end
@@ -110,11 +111,10 @@ end
 #   available
 # end
 
-
 # def self.by_time(meal_list)
 #   # => Returns an array of OpenNow Meals
 #   meal_list.select do |meal|
-#     meal.available? 
+#     meal.available?
 #   end
 # end
 
@@ -159,9 +159,9 @@ end
 #   def self.nearby_categories(number_of_results, cookies, search_radius)
 #     categories = []
 #     Restaurant.near([cookies[:lat].to_f, cookies[:lng].to_f], search_radius).each do |restaurant|
-#       restaurant.meals.each do |meal| 
-#         meal.category.split(" ").each do |category| 
-#           categories << category if category.length > 3 
+#       restaurant.meals.each do |meal|
+#         meal.category.split(" ").each do |category|
+#           categories << category if category.length > 3
 #         end
 #       end
 #     end
@@ -170,10 +170,6 @@ end
 #     counts.sort_by { |_key, value| value }.reverse.to_h.keys.first(number_of_results)
 #   end
 # end
-
-
-
-
 
 # # BY RESTAURANT CATEGORIES
 #   def self.categories(number_of_results)

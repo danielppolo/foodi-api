@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_065649) do
+ActiveRecord::Schema.define(version: 2020_11_08_191535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,15 +19,6 @@ ActiveRecord::Schema.define(version: 2019_12_18_065649) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "cuisines", force: :cascade do |t|
-    t.bigint "restaurant_id"
-    t.bigint "category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_cuisines_on_category_id"
-    t.index ["restaurant_id"], name: "index_cuisines_on_restaurant_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
@@ -44,6 +35,13 @@ ActiveRecord::Schema.define(version: 2019_12_18_065649) do
     t.datetime "updated_at", null: false
     t.index ["meal_id"], name: "index_likes_on_meal_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "meal_categories", force: :cascade do |t|
+    t.bigint "meal_id", null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_meal_categories_on_category_id"
+    t.index ["meal_id"], name: "index_meal_categories_on_meal_id"
   end
 
   create_table "meals", force: :cascade do |t|
@@ -74,8 +72,17 @@ ActiveRecord::Schema.define(version: 2019_12_18_065649) do
     t.index ["meal_id"], name: "index_portions_on_meal_id"
   end
 
+  create_table "restaurant_categories", force: :cascade do |t|
+    t.bigint "restaurant_id"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_restaurant_categories_on_category_id"
+    t.index ["restaurant_id"], name: "index_restaurant_categories_on_restaurant_id"
+  end
+
   create_table "restaurants", force: :cascade do |t|
-    t.string "schedule"
+    t.json "schedule"
     t.integer "popularity"
     t.string "logotype"
     t.integer "store_type"
@@ -91,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_12_18_065649) do
     t.boolean "has_venue"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "friendly_schedule"
   end
 
   create_table "users", force: :cascade do |t|
@@ -110,11 +118,13 @@ ActiveRecord::Schema.define(version: 2019_12_18_065649) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "cuisines", "categories"
-  add_foreign_key "cuisines", "restaurants"
   add_foreign_key "likes", "meals"
   add_foreign_key "likes", "users"
+  add_foreign_key "meal_categories", "categories"
+  add_foreign_key "meal_categories", "meals"
   add_foreign_key "meals", "restaurants"
   add_foreign_key "portions", "ingredients"
   add_foreign_key "portions", "meals"
+  add_foreign_key "restaurant_categories", "categories"
+  add_foreign_key "restaurant_categories", "restaurants"
 end

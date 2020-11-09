@@ -1,10 +1,10 @@
-require_relative "#{Rails.root}/lib/modules/schedule"
 require 'date'
+require 'json'
 
 class Restaurant < ApplicationRecord
   validates :name, presence: true
   validates :address, presence: true
-  validates :schedule, presence: true
+  validates :friendly_schedule, presence: true, schedule: true
   validates :logotype, presence: true
   validates :image, presence: true
   validates :rating, inclusion: { in: 0..5 }
@@ -14,11 +14,12 @@ class Restaurant < ApplicationRecord
   enum popularity: %i[low medium high]
 
   has_many :meals, dependent: :destroy
-  has_many :cuisines
-  has_many :categories, through: :cuisines
+  has_many :restaurant_categories, dependent: :destroy
+  has_many :categories, through: :restaurant_categories
 
   geocoded_by :address
   after_validation :geocode, if: :will_save_change_to_address?
+  after_validation :serialize_schedule, if: :will_save_change_to_friendly_schedule?
 
   def self.filter_by_location(lat:, lng:, radius:)
     Restaurant.geocoded.near([lat, lng], radius)
@@ -34,17 +35,12 @@ class Restaurant < ApplicationRecord
   end
 
   def open?
-    now = Time.new
-    today = Schedule.today(schedule)
-    open = Schedule.parse_time(today[:open])
-    close = Schedule.parse_time(today[:close])
-    open_time = Schedule.time(hour: open[:hour], minute: open[:minute])
-    close_time = Schedule.time(hour: close[:hour], minute: close[:minute])
-    open_time < now && now < close_time
-  end
-  
-  def is_open
-    open?
+    today = Time.now
+    now = today.strftime('%T').gsub(':', '').to_i
+    schedule[today.wday].all? do |open, close|
+      now.between?(open..close)
+    end
+    true
   end
 
   def eta
@@ -55,12 +51,17 @@ class Restaurant < ApplicationRecord
     distance_to([latitude, longitude])
   end
 
-  def schedule
-    Schedule.parse(super)
-  end
-  
   def self.available(list)
     list.select(&:open?)
   end
-end
 
+  private
+
+  def serialize_schedule
+    self.schedule = Date::DAYNAMES.map do |day|
+      friendly_schedule[day.downcase].map do |open, close|
+        [open.gsub(':', '').to_i, close.gsub(':', '').to_i]
+      end
+    end
+  end
+end
