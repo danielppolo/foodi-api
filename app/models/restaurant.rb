@@ -15,6 +15,7 @@ class Restaurant < ApplicationRecord
   enum store_type: %i[restaurant dark_kitchen]
 
   has_many :meals, dependent: :destroy
+  has_many :opening_times, dependent: :destroy
   has_many :restaurant_categories, dependent: :destroy
   has_many :categories, through: :restaurant_categories
   has_one_attached :image
