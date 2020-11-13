@@ -1,11 +1,10 @@
 module Types
   class MutationType < Types::BaseObject
-    field :baseMutation, mutation: Mutations::BaseMutation
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World"
+    field :dummy_mutation, String, null: false, authenticate: true
+
+    # FIXME: Remove this temp mutation
+    def dummy_mutation
+      'Necessary so GraphQL gem does not complain about empty mutation type'
     end
   end
 end

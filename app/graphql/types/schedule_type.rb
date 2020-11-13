@@ -1,6 +1,4 @@
-require_relative "#{Rails.root}/lib/modules/schedule"
-
-module Types 
+module Types
   class ScheduleType < BaseObject
     field :monday, [String], null: false
     field :tuesday, [String], null: false

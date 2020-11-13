@@ -19,12 +19,14 @@ gem 'puma', '~> 3.11'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+gem 'cancancan'
 gem 'cloudinary', '~> 1.16.0'
 gem 'devise'
+gem 'devise_token_auth'
 gem 'geocoder'
 gem 'graphql', '~> 1.9'
+gem 'graphql_devise'
 gem 'money-rails', '~>1.12'
-gem 'pundit'
 gem 'rack-cors', '~> 1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
