@@ -24,9 +24,11 @@ default: &default
 development:
   <<: *default
   database: foodi_api_development
+  <% if ENV["OS"] == "WINDOWS" %>
   port: 5432
   host: localhost
   username: postgres 
+  <% end %>
   password: <%= ENV['FOODIE_DATABASE_PASSWORD'] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -61,9 +63,11 @@ development:
 test:
   <<: *default
   database: foodi_api_test
+  <% if ENV["OS"] == "WINDOWS" %>
   port: 5432
   host: localhost
-  username: postgres
+  username: postgres 
+  <% end %>
   password: <%= ENV['FOODIE_DATABASE_PASSWORD'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,

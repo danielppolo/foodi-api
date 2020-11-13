@@ -24,7 +24,8 @@ class Restaurant < ApplicationRecord
   geocoded_by :address
 
   after_validation :geocode, if: :will_save_change_to_address?
-  after_validation :serialize_schedule, if: :will_save_change_to_friendly_schedule?
+  after_save :serialize_schedule
+  after_save :geocode_meals
 
   def self.filter_by_location(lat:, lng:, radius:)
     Restaurant.geocoded.near([lat, lng], radius)
@@ -48,7 +49,7 @@ class Restaurant < ApplicationRecord
   end
 
   def eta
-    # TODO: Calculate estimated time with Google Maps API
+    distance_to([latitude, longitude]) * 12 # Median pace
   end
 
   def distance(latitude:, longitude:)
@@ -62,10 +63,26 @@ class Restaurant < ApplicationRecord
   private
 
   def serialize_schedule
-    self.schedule = Date::DAYNAMES.map do |day|
-      friendly_schedule[day.downcase].map do |open, close|
-        [open.gsub(':', '').to_i, close.gsub(':', '').to_i]
+    Date::DAYNAMES.each do |day|
+      print "#{day}, "
+      friendly_schedule[day.downcase].each do |start_time, end_time|
+        OpeningTime.create(
+          start: start_time,
+          end: end_time,
+          restaurant: self
+        )
       end
+    end
+  end
+
+  def geocode_meals
+    return unless meals.size.positive? && latitude == meals.first.latitude && longitude == meals.first.longitude
+
+    meals.each do |meal|
+      meal.update(
+        latitude: latitude,
+        longitude: longitude
+      )
     end
   end
 end

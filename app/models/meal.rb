@@ -36,7 +36,7 @@ class Meal < ApplicationRecord
   end
 
   def delivery?
-    restaurant.delivery
+    restaurant.has_delivery
   end
 
   def address
@@ -47,47 +47,17 @@ class Meal < ApplicationRecord
 
   def self.set_categories; end
 
-  def self.nearby_categories(limit:, cookies:, radius:)
-    # TODO:
-    # categories = []
-    # Restaurant.near([cookies[:lat].to_f, cookies[:lng].to_f], search_radius).each do |restaurant|
-    #   restaurant.meals.each do |meal|
-    #     meal.category.split(" ").each do |category|
-    #       categories << category if category.length > 3
-    #     end
-    #   end
-    # end
-    # counts = Hash.new(0)
-    # categories.each { |word| counts[word] += 1 }
-    # counts.sort_by { |_key, value| value }.reverse.to_h.keys.first(limit)
-  end
+  def self.nearby_categories(limit:, cookies:, radius:); end
 
-  def self.filter_by_location(latitude:, longitude:, radius:)
-    nearby_restaurants = Restaurant.filter_by_location(
-      latitude: latitude,
-      longitude: longitude,
-      radius: radius
-    )
-    nearby_restaurants.map(&:meals).flatten
-  end
+  def self.filter_by_location(latitude:, longitude:, radius:); end
 
-  def self.filter_by_cuisine
-    # TODO:
-    # Meal.where()
-  end
+  def self.filter_by_cuisine; end
 
-  def self.filter_by_price
-    # TODO:
-    # Meal.where()
-  end
+  def self.filter_by_price; end
 
-  def self.filter_by_restaurant
-    # TODO:
+  def self.from(restaurant)
     restaurant.meals
   end
 
-  def self.filter_by_time
-    # TODO:
-    # Meal.where()
-  end
+  def self.filter_by_time; end
 end

@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.integer "quantity", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "lat"
-    t.float "lng"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["restaurant_id"], name: "index_meals_on_restaurant_id"
   end
 

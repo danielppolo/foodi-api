@@ -60,8 +60,8 @@ module RappiServices
         rating: restaurant[:rating][:score],
         number_of_ratings: restaurant[:rating][:total_reviews],
         has_delivery: restaurant[:delivery_methods].include?('delivery'),
-        latitude: restaurant[:location][0],
-        longitude: restaurant[:location][1],
+        latitude: restaurant[:location][1],
+        longitude: restaurant[:location][0],
         friendly_schedule: parse_schedules(restaurant[:schedules])
       )
 
@@ -94,6 +94,7 @@ module RappiServices
       response['corridors'].each do |group|
         category = Category.find_by(name: group['name'].downcase) || Category.create!(name: group['name'].downcase)
         group['products'].each do |meal|
+          print '> '
           puts meal['name']
           next if meal['image'] == 'NO-IMAGE'
 
@@ -105,7 +106,9 @@ module RappiServices
               price: meal['price'],
               quantity: meal['quantity'],
               preparation_time: response['saturation']['cooking_time'],
-              restaurant: restaurant
+              restaurant: restaurant,
+              latitude: restaurant.latitude,
+              longitude: restaurant.longitude
             )
 
             meal_instance.image.attach(io: image, filename: "#{meal[:name]}.png", content_type: 'image/png')

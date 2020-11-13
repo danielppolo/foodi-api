@@ -3,10 +3,10 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(_user)
+    can :read, :all
     # Define abilities for the passed in user here. For example:
-    # TODO:
-    #   user ||= User.new # guest user (not logged in)
+    # user ||= User.new # guest user (not logged in)
     #   if user.admin?
     #     can :manage, :all
     #   else
