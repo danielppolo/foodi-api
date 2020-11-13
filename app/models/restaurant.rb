@@ -27,25 +27,45 @@ class Restaurant < ApplicationRecord
   after_save :serialize_schedule
   after_save :geocode_meals
 
-  def self.filter_by_location(lat:, lng:, radius:)
-    Restaurant.geocoded.near([lat, lng], radius)
-  end
+  scope :nearby, lambda { |latitude:, longitude:, radius:, select: nil|
+    geocoded.near([latitude, longitude], radius, select: select)
+  }
 
-  def self.filter_by_time
-    # Restaurant.
+  scope :available, lambda { |now = Time.now|
+    joins(:opening_times)
+      .where('
+      opening_times.start <= ?
+      AND opening_times.end >= ?
+      AND opening_times.weekday = ?',
+             now + now.gmt_offset,
+             now + now.gmt_offset,
+             now.wday)
+  }
+
+  def self.categories
+    Category
+      .joins(:restaurant_categories)
+      .distinct
+      .pluck(:name)
   end
 
   def coordinates
     [latitude, longitude]
   end
 
-  def open?
-    today = Time.now
-    now = today.strftime('%T').gsub(':', '').to_i
-    schedule[today.wday].all? do |open, close|
-      now.between?(open..close)
-    end
-    true
+  def available?(now = Time.now)
+    Restaurant
+      .joins(:opening_times)
+      .where('
+            opening_times.start <= ?
+            AND opening_times.end >= ?
+            AND opening_times.weekday = ?
+            AND meals.id = ?',
+             now + now.gmt_offset,
+             now + now.gmt_offset,
+             now.wday,
+             id)
+      .exists?
   end
 
   def eta
@@ -54,10 +74,6 @@ class Restaurant < ApplicationRecord
 
   def distance(latitude:, longitude:)
     distance_to([latitude, longitude])
-  end
-
-  def self.available(list)
-    list.select(&:open?)
   end
 
   private
