@@ -63,12 +63,12 @@ class Restaurant < ApplicationRecord
   private
 
   def serialize_schedule
-    Date::DAYNAMES.each do |day|
-      print "#{day}, "
+    Date::DAYNAMES.each_with_index do |day, index|
       friendly_schedule[day.downcase].each do |start_time, end_time|
         OpeningTime.create(
           start: start_time,
           end: end_time,
+          weekday: index,
           restaurant: self
         )
       end

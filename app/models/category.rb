@@ -4,4 +4,6 @@ class Category < ApplicationRecord
 
   has_many :restaurant_categories
   has_many :restaurants, through: :restaurant_categories
+  has_many :meal_categories
+  has_many :meals, through: :meal_categories
 end

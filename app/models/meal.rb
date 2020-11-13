@@ -1,6 +1,4 @@
 class Meal < ApplicationRecord
-  after_create { Meal.set_categories }
-
   validates :price_cents, presence: true
   validates :name, presence: true, uniqueness: { scope: :restaurant }
   validates :description, presence: true
@@ -17,6 +15,7 @@ class Meal < ApplicationRecord
   geocoded_by :address
 
   belongs_to :restaurant
+  has_many :opening_times, through: :restaurant
   has_many :portions
   has_many :ingredients, through: :portions
   has_many :restaurant_categories, through: :restaurant
@@ -31,8 +30,19 @@ class Meal < ApplicationRecord
              less_than_or_equal_to: 10_000
            }
 
-  def available?
-    restaurant.open?
+  def available?(now = Time.now)
+    Meal
+      .joins(:opening_times)
+      .where('
+            opening_times.start <= ?
+            AND opening_times.end >= ?
+            AND opening_times.weekday = ?
+            AND meals.id = ?',
+             now + now.gmt_offset,
+             now + now.gmt_offset,
+             now.wday,
+             id)
+      .exists?
   end
 
   def delivery?
@@ -43,21 +53,44 @@ class Meal < ApplicationRecord
     restaurant?.address
   end
 
-  def self.categories; end
+  def self.categories
+    Category
+      .joins(:meal_categories)
+      .distinct
+      .pluck(:name)
+  end
 
-  def self.set_categories; end
+  def self.nearby_categories(latitude:, longitude:, radius:)
+    geocoded
+      .near([latitude, longitude], radius, select: 'categories.name')
+      .joins(:categories)
+      .map(&:name)
+  end
 
-  def self.nearby_categories(limit:, cookies:, radius:); end
+  scope :nearby, lambda { |latitude:, longitude:, radius:, select: nil|
+    geocoded.near([latitude, longitude], radius, select: select)
+  }
 
-  def self.filter_by_location(latitude:, longitude:, radius:); end
+  scope :by_category, lambda { |category|
+    where(category: category)
+  }
 
-  def self.filter_by_cuisine; end
+  scope :by_price, lambda { |max_price|
+    where('price_cents < ?', max_price * 100)
+  }
 
-  def self.filter_by_price; end
+  scope :available, lambda { |now = Time.now|
+    joins(:opening_times)
+      .where('
+      opening_times.start <= ?
+      AND opening_times.end >= ?
+      AND opening_times.weekday = ?',
+             now + now.gmt_offset,
+             now + now.gmt_offset,
+             now.wday)
+  }
 
   def self.from(restaurant)
     restaurant.meals
   end
-
-  def self.filter_by_time; end
 end

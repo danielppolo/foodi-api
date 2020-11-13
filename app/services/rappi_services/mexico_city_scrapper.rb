@@ -114,7 +114,7 @@ module RappiServices
             meal_instance.image.attach(io: image, filename: "#{meal[:name]}.png", content_type: 'image/png')
             meal_instance.save
             MealCategory.create!(meal: meal_instance, category: category) if meal_instance.id
-          rescue StandardError
+          rescue StandardError => e
             puts "Couldn't fetch: https://images.rappi.com.mx/products/#{meal['image']}"
           end
         end

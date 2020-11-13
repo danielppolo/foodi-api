@@ -89,8 +89,9 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
   end
 
   create_table "opening_times", force: :cascade do |t|
-    t.time "start"
-    t.time "end"
+    t.time "start", null: false
+    t.time "end", null: false
+    t.integer "weekday", null: false
     t.bigint "restaurant_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
