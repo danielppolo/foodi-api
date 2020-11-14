@@ -4,4 +4,8 @@ class RestaurantCategory < ApplicationRecord
 
   belongs_to :restaurant
   belongs_to :category
+
+  def to_s
+    "#{restaurant.name} <=> #{category.name}"
+  end
 end

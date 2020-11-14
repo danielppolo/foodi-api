@@ -9,4 +9,8 @@ class Portion < ApplicationRecord
 
   belongs_to :ingredient
   belongs_to :meal
+
+  def to_s
+    "#{meal.name} <=> #{ingredient.name}"
+  end
 end

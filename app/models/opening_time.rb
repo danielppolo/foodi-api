@@ -1,3 +1,5 @@
+require 'date'
+
 class OpeningTime < ApplicationRecord
   belongs_to :restaurant
 
@@ -25,4 +27,8 @@ class OpeningTime < ApplicationRecord
   validates :weekday,
             presence: true,
             inclusion: 0..6
+
+  def to_s
+    "#{Date::DAYNAMES[weekday]} from #{start_time.strftime('%T')} to #{end_time.strftime('%T')} (#{restaurant.name})"
+  end
 end

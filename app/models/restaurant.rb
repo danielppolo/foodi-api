@@ -5,7 +5,7 @@ class Restaurant < ApplicationRecord
   # enum serving_methods: %i[in_place delivery]
   enum popularity: %i[low medium high very_high]
   enum store_type: %i[restaurant dark_kitchen]
-  
+
   validates :name, presence: true, uniqueness: { scope: :address }
   validates :address, presence: true
   validates :friendly_schedule, presence: true, schedule: true
@@ -13,7 +13,6 @@ class Restaurant < ApplicationRecord
   validates :image, presence: true
   validates :rating, inclusion: { in: 0..5 }
   validates :has_delivery, presence: true
-
 
   has_many :meals, dependent: :destroy
   has_many :opening_times, dependent: :destroy
@@ -101,5 +100,9 @@ class Restaurant < ApplicationRecord
         longitude: longitude
       )
     end
+  end
+
+  def to_s
+    name
   end
 end

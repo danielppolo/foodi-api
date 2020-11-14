@@ -11,4 +11,8 @@ class Category < ApplicationRecord
   has_many :restaurants, through: :restaurant_categories
   has_many :meal_categories, dependent: :destroy
   has_many :meals, through: :meal_categories
+
+  def to_s
+    name
+  end
 end

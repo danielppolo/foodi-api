@@ -4,4 +4,8 @@ class Like < ApplicationRecord
 
   validates :meal, presence: true
   validates :user, presence: true
+
+  def to_s
+    "#{meal.name} <=> #{user.name}"
+  end
 end

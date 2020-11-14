@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
   has_many :likes, dependent: :destroy
   has_many :meals, through: :likes
   has_one_attached :image
+
+  def to_s
+    "#{name} (#{email})"
+  end
 end

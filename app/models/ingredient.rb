@@ -5,4 +5,8 @@ class Ingredient < ApplicationRecord
 
   has_many :portions, dependent: :destroy
   has_many :meals, through: :portions
+
+  def to_s
+    name
+  end
 end

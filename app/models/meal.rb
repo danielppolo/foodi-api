@@ -129,4 +129,8 @@ class Meal < ApplicationRecord
       rating: (number_of_ratings * total + rating) / number_of_ratings + 1
     )
   end
+
+  def to_s
+    name
+  end
 end
