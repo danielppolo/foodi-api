@@ -3,9 +3,7 @@ class CreateRestaurants < ActiveRecord::Migration[5.2]
     create_table :restaurants do |t|
       t.json :schedule
       t.integer :popularity
-      t.string :logotype
       t.integer :store_type
-      t.string :image
       t.string :name
       t.string :address
       t.string :description

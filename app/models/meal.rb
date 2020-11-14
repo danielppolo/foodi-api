@@ -1,4 +1,6 @@
 class Meal < ApplicationRecord
+  enum popularity: %i[low medium high very_high]
+
   validates :price_cents, presence: true
   validates :name,
             presence: true,
@@ -72,8 +74,8 @@ class Meal < ApplicationRecord
   scope :available, lambda { |now = Time.now|
     joins(:opening_times)
       .where('
-              opening_times.start <= ?
-              AND opening_times.end >= ?
+              opening_times.start_time <= ?
+              AND opening_times.end_time >= ?
               AND opening_times.weekday = ?',
              now + now.gmt_offset,
              now + now.gmt_offset,
@@ -102,8 +104,8 @@ class Meal < ApplicationRecord
     Meal
       .joins(:opening_times)
       .where('
-            opening_times.start <= ?
-            AND opening_times.end >= ?
+            opening_times.start_time <= ?
+            AND opening_times.end_time >= ?
             AND opening_times.weekday = ?
             AND meals.id = ?',
              now + now.gmt_offset,

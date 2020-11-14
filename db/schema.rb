@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
 
   create_table "meals", force: :cascade do |t|
     t.string "name"
-    t.string "image"
     t.string "description"
     t.boolean "is_kosher", default: false
     t.boolean "is_vegetarian", default: false
@@ -89,8 +88,8 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
   end
 
   create_table "opening_times", force: :cascade do |t|
-    t.time "start", null: false
-    t.time "end", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
     t.integer "weekday", null: false
     t.bigint "restaurant_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -120,9 +119,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
   create_table "restaurants", force: :cascade do |t|
     t.json "schedule"
     t.integer "popularity"
-    t.string "logotype"
     t.integer "store_type"
-    t.string "image"
     t.string "name"
     t.string "address"
     t.string "description"
@@ -156,7 +153,6 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.string "last_sign_in_ip"
     t.string "name"
     t.string "nickname"
-    t.string "image"
     t.string "email"
     t.json "tokens"
     t.datetime "created_at", precision: 6, null: false

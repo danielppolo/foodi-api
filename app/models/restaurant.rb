@@ -2,6 +2,10 @@ require 'date'
 require 'json'
 
 class Restaurant < ApplicationRecord
+  # enum serving_methods: %i[in_place delivery]
+  enum popularity: %i[low medium high very_high]
+  enum store_type: %i[restaurant dark_kitchen]
+  
   validates :name, presence: true, uniqueness: { scope: :address }
   validates :address, presence: true
   validates :friendly_schedule, presence: true, schedule: true
@@ -10,9 +14,6 @@ class Restaurant < ApplicationRecord
   validates :rating, inclusion: { in: 0..5 }
   validates :has_delivery, presence: true
 
-  # enum serving_methods: %i[in_place delivery]
-  enum popularity: %i[low medium high]
-  enum store_type: %i[restaurant dark_kitchen]
 
   has_many :meals, dependent: :destroy
   has_many :opening_times, dependent: :destroy
@@ -34,8 +35,8 @@ class Restaurant < ApplicationRecord
   scope :available, lambda { |now = Time.now|
     joins(:opening_times)
       .where('
-      opening_times.start <= ?
-      AND opening_times.end >= ?
+      opening_times.start_time <= ?
+      AND opening_times.end_tieme >= ?
       AND opening_times.weekday = ?',
              now + now.gmt_offset,
              now + now.gmt_offset,
@@ -57,8 +58,8 @@ class Restaurant < ApplicationRecord
     Restaurant
       .joins(:opening_times)
       .where('
-            opening_times.start <= ?
-            AND opening_times.end >= ?
+            opening_times.start_time <= ?
+            AND opening_times.end_time >= ?
             AND opening_times.weekday = ?
             AND meals.id = ?',
              now + now.gmt_offset,
@@ -82,8 +83,8 @@ class Restaurant < ApplicationRecord
     Date::DAYNAMES.each_with_index do |day, index|
       friendly_schedule[day.downcase].each do |start_time, end_time|
         OpeningTime.create(
-          start: start_time,
-          end: end_time,
+          start_time: start_time,
+          end_time: end_time,
           weekday: index,
           restaurant: self
         )

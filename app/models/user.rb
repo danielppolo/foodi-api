@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
+  enum gender: %i[female male]
+
   devise  :database_authenticatable,
           :registerable,
           :recoverable,
@@ -12,7 +14,6 @@ class User < ActiveRecord::Base
 
   validates :name,
             presence: true,
-            uniqueness: true
   validates :nickname,
             presence: true,
             uniqueness: true
