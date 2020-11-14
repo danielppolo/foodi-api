@@ -13,12 +13,13 @@
 ActiveRecord::Schema.define(version: 2020_11_13_184025) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
+    t.uuid "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
@@ -36,36 +37,36 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "categories", force: :cascade do |t|
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "ingredients", force: :cascade do |t|
+  create_table "ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.integer "carbs_per_kilo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "likes", force: :cascade do |t|
-    t.bigint "meal_id"
-    t.bigint "user_id"
+  create_table "likes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "meal_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["meal_id"], name: "index_likes_on_meal_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
-  create_table "meal_categories", force: :cascade do |t|
-    t.bigint "meal_id", null: false
-    t.bigint "category_id", null: false
+  create_table "meal_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "meal_id", null: false
+    t.uuid "category_id", null: false
     t.index ["category_id"], name: "index_meal_categories_on_category_id"
     t.index ["meal_id"], name: "index_meal_categories_on_meal_id"
   end
 
-  create_table "meals", force: :cascade do |t|
+  create_table "meals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.boolean "is_kosher", default: false
@@ -76,9 +77,9 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.integer "preparation_time"
     t.boolean "is_beverage", default: false
     t.float "popularity", default: 0.0
-    t.bigint "restaurant_id"
+    t.uuid "restaurant_id"
     t.integer "number_of_ratings", default: 0
-    t.integer "rating", default: 0
+    t.float "rating", default: 0.0
     t.integer "quantity", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -87,19 +88,19 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.index ["restaurant_id"], name: "index_meals_on_restaurant_id"
   end
 
-  create_table "opening_times", force: :cascade do |t|
+  create_table "opening_times", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.time "start_time", null: false
     t.time "end_time", null: false
     t.integer "weekday", null: false
-    t.bigint "restaurant_id", null: false
+    t.uuid "restaurant_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["restaurant_id"], name: "index_opening_times_on_restaurant_id"
   end
 
-  create_table "portions", force: :cascade do |t|
-    t.bigint "ingredient_id"
-    t.bigint "meal_id"
+  create_table "portions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "ingredient_id"
+    t.uuid "meal_id"
     t.float "grams"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,16 +108,16 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.index ["meal_id"], name: "index_portions_on_meal_id"
   end
 
-  create_table "restaurant_categories", force: :cascade do |t|
-    t.bigint "restaurant_id"
-    t.bigint "category_id"
+  create_table "restaurant_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "restaurant_id"
+    t.uuid "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_restaurant_categories_on_category_id"
     t.index ["restaurant_id"], name: "index_restaurant_categories_on_restaurant_id"
   end
 
-  create_table "restaurants", force: :cascade do |t|
+  create_table "restaurants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.json "schedule"
     t.integer "popularity"
     t.integer "store_type"
@@ -125,7 +126,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.string "description"
     t.boolean "has_delivery", default: false
     t.integer "number_of_ratings", default: 0
-    t.integer "rating", default: 0
+    t.float "rating", default: 0.0
     t.float "latitude"
     t.float "longitude"
     t.boolean "is_active", default: true
@@ -134,7 +135,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_184025) do
     t.json "friendly_schedule"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false

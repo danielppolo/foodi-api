@@ -1,4 +1,7 @@
 require 'httparty'
+require 'logger'
+
+logger = Logger.new(STDOUT)
 
 module RappiServices
   class MexicoCityScrapper
@@ -35,23 +38,23 @@ module RappiServices
         create_restaurant_categories(restaurant, categories)
         parse_meals(response, restaurant)
       end
-      puts '-----------------'
+      logger.info '-----------------'
     end
 
     private
 
     def parse_restaurant(restaurant)
-      puts restaurant[:name]
+      logger.info restaurant[:name]
       logotype, image = nil
       begin
         logotype = URI.open("https://images.rappi.com.mx/restaurants_logo/#{restaurant[:logo]}")
-      rescue StandardError
-        puts "Couldn't fetch logotype."
+      rescue StandardError => e
+        logger.warn e
       end
       begin
         image = URI.open("https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}")
-      rescue StandardError
-        puts "Couldn't fetch cover picture."
+      rescue StandardError => e
+        logger.warn e
       end
 
       restaurant_instance = Restaurant.new(
@@ -95,7 +98,7 @@ module RappiServices
         category = Category.find_by(name: group['name'].downcase) || Category.create!(name: group['name'].downcase)
         group['products'].each do |meal|
           print '> '
-          puts meal['name']
+          logger.info meal['name']
           next if meal['image'] == 'NO-IMAGE'
 
           begin
@@ -112,10 +115,10 @@ module RappiServices
             )
 
             meal_instance.image.attach(io: image, filename: "#{meal[:name]}.png", content_type: 'image/png')
-            meal_instance.save
+            meal_instance.save!
             MealCategory.create!(meal: meal_instance, category: category) if meal_instance.id
           rescue StandardError => e
-            puts "Couldn't fetch: https://images.rappi.com.mx/products/#{meal['image']}"
+            logger.warn e
           end
         end
       end

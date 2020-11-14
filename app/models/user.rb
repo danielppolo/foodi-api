@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   include GraphqlDevise::Concerns::Model
 
   validates :name,
-            presence: true,
+            presence: true
   validates :nickname,
             presence: true,
             uniqueness: true

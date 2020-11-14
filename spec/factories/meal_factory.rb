@@ -14,8 +14,8 @@ FactoryBot.define do
     is_beverage { false }
     popularity { 1 }
     restaurant
-    number_of_ratings { 8 }
-    rating { 32 }
+    number_of_ratings { 0 }
+    rating { 0 }
     quantity { 1 }
     latitude { 19.4065495 }
     longitude { -99.179647 }

@@ -1,18 +1,24 @@
 class Meal < ApplicationRecord
   enum popularity: %i[low medium high very_high]
 
-  validates :price_cents, presence: true
+  validates :price_cents,
+            presence: true,
+            numericality: {
+              greater_than: 0
+            }
   validates :name,
             presence: true,
             uniqueness: {
               scope: :restaurant,
-              message: '%<value> already exists in Restaurant'
+              message: 'already exists in Restaurant'
             }
-  validates :description, presence: true,
-                          length: {
-                            minimum: 100,
-                            message: 'Description must be larger than 100 characters'
-                          }
+  validates :description,
+            presence: true,
+            allow_nil: true,
+            length: {
+              minimum: 20,
+              message: 'must be larger than 20 characters'
+            }
   validates :image, presence: true
   validates :restaurant, presence: true
   validates :latitude,
@@ -53,9 +59,9 @@ class Meal < ApplicationRecord
   has_one_attached :image
 
   monetize :price_cents,
-           allow_nil: true,
+           allow_nil: false,
            numericality: {
-             greater_than_or_equal_to: 0,
+             greater_than: 0,
              less_than_or_equal_to: 10_000
            }
 
@@ -123,11 +129,13 @@ class Meal < ApplicationRecord
     restaurant?.address
   end
 
-  def rate(rating)
+  def rate(new_rating)
+    total = ((number_of_ratings * rating) + new_rating) / (number_of_ratings + 1).to_f
     update(
       number_of_ratings: number_of_ratings + 1,
-      rating: (number_of_ratings * total + rating) / number_of_ratings + 1
+      rating: total
     )
+    total
   end
 
   def to_s
