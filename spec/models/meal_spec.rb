@@ -6,6 +6,8 @@ RSpec.describe Meal, type: :model do
   end
 
   describe 'validates' do
+    let(:meal) { build(:meal) }
+
     it '`name` existence' do
       expect(build(:meal, name: nil)).to_not be_valid
     end
@@ -31,8 +33,14 @@ RSpec.describe Meal, type: :model do
   describe 'should' do
     it 'calculate rating' do
       meal = create(:meal)
+      expect(meal.rate(1)).to be_equal?(1.0)
+      expect(meal.rate(0)).to be_equal?(0.5)
+      expect(meal.rate(1)).to be_equal?(0.66)
+    end
+
+    it 'accept ratings between 0..1' do
+      meal = create(:meal)
       expect(meal.rate(4)).to be(4.0)
-      expect(meal.rate(3)).to be(3.5)
     end
   end
 end

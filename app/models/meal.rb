@@ -14,7 +14,6 @@ class Meal < ApplicationRecord
             }
   validates :description,
             presence: true,
-            allow_nil: true,
             length: {
               minimum: 20,
               message: 'must be larger than 20 characters'
