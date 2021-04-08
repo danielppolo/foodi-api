@@ -5,7 +5,13 @@ Restaurant.destroy_all
 puts '🧹 Cleaning categories'
 Category.destroy_all
 
-scraper = RappiServices::MexicoCityScrapper.new([19.4065495, -99.179647])
-scraper.restaurants.first(10).each do |restaurant|
-  scraper.parse(restaurant)
+dir = '../data/rappi'
+Dir.foreach(dir) do |filename|
+  next unless filename.include? '.json'
+
+  filepath = dir + '/' + filename
+  serialized_data = File.read(filepath)
+  data = JSON.parse(serialized_data, symbolize_names: true)
+  parser = RappiServices::Parser.new
+  parser.parse(data)
 end

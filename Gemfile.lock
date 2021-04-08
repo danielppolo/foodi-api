@@ -66,6 +66,7 @@ GEM
     cloudinary (1.16.1)
       aws_cf_signer
       rest-client
+    colorize (0.8.1)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
     devise (4.7.1)
@@ -253,13 +254,14 @@ DEPENDENCIES
   byebug
   cancancan
   cloudinary (~> 1.16.0)
+  colorize
   devise
   devise_token_auth
   dotenv-rails
   factory_bot_rails
   geocoder
   graphiql-rails
-  graphql (~> 1.9)
+  graphql (~> 1.8)
   graphql_devise
   httparty (~> 0.18.1)
   kaminari

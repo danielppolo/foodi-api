@@ -1,7 +1,5 @@
 require 'httparty'
-require 'logger'
-
-logger = Logger.new(STDOUT)
+require 'colorize'
 
 module RappiServices
   class MexicoCityScrapper
@@ -10,12 +8,12 @@ module RappiServices
     RESTAURANT_ENDPOINT = '/ms/web-proxy/restaurants-bus/store/'.freeze
     TOKEN_ENDPOINT = '/auth/guest_access_token'.freeze
 
-    def initialize(coordinates)
+    def initialize(coordinates = [])
       @lat, @lng = coordinates
       auth
     end
 
-    def restaurants
+    def fetch_restaurants
       response = HTTParty.post(
         BASE_URL + RESTAURANTS_ENDPOINT,
         body: restaurants_body.to_json,
@@ -25,7 +23,7 @@ module RappiServices
       data[:stores].map { |store| store[:friendly_url][:friendly_url] }
     end
 
-    def parse(slug)
+    def fetch_restaurant(slug)
       response = HTTParty.post(
         BASE_URL + RESTAURANT_ENDPOINT + slug,
         body: restaurants_body.to_json,
@@ -38,23 +36,23 @@ module RappiServices
         create_restaurant_categories(restaurant, categories)
         parse_meals(response, restaurant)
       end
-      logger.info '-----------------'
+      puts '-----------------'
     end
 
     private
 
     def parse_restaurant(restaurant)
-      logger.info restaurant[:name]
+      puts restaurant[:name]
       logotype, image = nil
       begin
         logotype = URI.open("https://images.rappi.com.mx/restaurants_logo/#{restaurant[:logo]}")
       rescue StandardError => e
-        logger.warn e
+        puts e.to_s.red
       end
       begin
         image = URI.open("https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}")
       rescue StandardError => e
-        logger.warn e
+        puts e.to_s.red
       end
 
       restaurant_instance = Restaurant.new(
@@ -98,7 +96,7 @@ module RappiServices
         category = Category.find_by(name: group['name'].downcase) || Category.create!(name: group['name'].downcase)
         group['products'].each do |meal|
           print '> '
-          logger.info meal['name']
+          puts meal['name']
           next if meal['image'] == 'NO-IMAGE'
 
           begin
@@ -118,7 +116,7 @@ module RappiServices
             meal_instance.save!
             MealCategory.create!(meal: meal_instance, category: category) if meal_instance.id
           rescue StandardError => e
-            logger.warn e
+            puts e.to_s.red
           end
         end
       end

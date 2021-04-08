@@ -1,7 +1,10 @@
 class FoodieSchema < GraphQL::Schema
+  include Types
+
   use GraphqlDevise::SchemaPlugin.new(
     query: Types::QueryType,
     mutation: Types::MutationType,
+    authenticate_default: false,
     resource_loaders: [
       GraphqlDevise::ResourceLoader.new(
         'User',

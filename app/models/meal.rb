@@ -13,12 +13,14 @@ class Meal < ApplicationRecord
               message: 'already exists in Restaurant'
             }
   validates :description,
-            presence: true,
-            length: {
-              minimum: 20,
-              message: 'must be larger than 20 characters'
-            }
+            presence: true
+  # length: {
+  #   minimum: 20,
+  #   message: 'must be larger than 20 characters'
+  # }
+  # validates :image, presence: true
   validates :external_image_url, presence: true
+
   validates :restaurant, presence: true
   validates :latitude,
             presence: true,
@@ -33,11 +35,11 @@ class Meal < ApplicationRecord
               message: '%<value> is not a valid longitude'
             }
   validates :preparation_time,
-            presence: true,
-            numericality: {
-              only_integer: true,
-              greater_than: 0
-            }
+            presence: true
+  # numericality: {
+  #   only_integer: true,
+  #   greater_than: 0
+  # }
   validates :quantity,
             presence: true,
             numericality: {
