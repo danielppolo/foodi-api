@@ -26,6 +26,7 @@ gem 'devise_token_auth'
 gem 'geocoder'
 gem 'graphql', '~> 1.9'
 gem 'graphql_devise'
+gem 'kaminari'
 gem 'money-rails', '~>1.12'
 gem 'rack-cors', '~> 1.0'
 
