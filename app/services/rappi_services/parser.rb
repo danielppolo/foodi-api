@@ -18,8 +18,8 @@ module RappiServices
       puts restaurant[:name]
       restaurant_instance = Restaurant.new(
         name: restaurant[:name],
-        external_image_url: "https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}",
-        external_logo_url: "https://images.rappi.com.mx/restaurants_logo/#{restaurant[:logo]}",
+        external_image_url: restaurant[:background] && "https://images.rappi.com.mx/restaurants_background/#{restaurant[:background]}",
+        external_logo_url: restaurant[:logo] && "https://images.rappi.com.mx/restaurants_logo/#{restaurant[:logo]}",
         address: restaurant[:address],
         rating: restaurant[:rating][:score],
         number_of_ratings: restaurant[:rating][:total_reviews],
@@ -57,7 +57,7 @@ module RappiServices
         group[:products].each do |meal|
           print '> '
           puts meal[:name]
-          next if meal[:image] == 'NO-IMAGE'
+          next if !meal[:image] || meal[:image] == 'NO-IMAGE'
 
           begin
             meal_instance = Meal.new(

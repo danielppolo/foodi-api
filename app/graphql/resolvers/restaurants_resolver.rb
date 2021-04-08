@@ -1,20 +1,18 @@
 module Resolvers
-  class RestaurantsResolver < GraphQL::Schema::Resolver
-    type [Types::RestaurantType], null: false
-    argument :limit, Int, required: false
+  class RestaurantsResolver < ListResolver
+    type Types::RestaurantListType, null: false
     argument :lat, Float, required: false
     argument :lng, Float, required: false
-    argument :radius, Float, required: false
 
-    def resolve(limit: nil, lat:, lng:, radius: 2.00)
-      restaurants = if lat && lng
-                      Restaurant.filter_by_location(lat: lat, lng: lng, radius: radius)
-                    else
-                      Restaurant.all
-                    end
-      restaurants = restaurants.first(limit) if limit
-      restaurants
+    def resolve(lat:, lng:, **kwargs)
+      super(kwargs) do
+        if lat && lng
+          Restaurant
+            .nearby(latitude: lat, longitude: lng, radius: 2)
+        else
+          Restaurant
+        end
+      end
     end
   end
 end
-

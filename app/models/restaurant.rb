@@ -9,8 +9,8 @@ class Restaurant < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :address }
   validates :address, presence: true
   validates :friendly_schedule, presence: true, schedule: true
-  validates :logotype, presence: true
-  validates :image, presence: true
+  # validates :logotype, presence: true
+  validates :external_image_url, presence: true
   validates :rating, inclusion: { in: 0..5 }
   validates :has_delivery, presence: true
 
@@ -18,8 +18,8 @@ class Restaurant < ApplicationRecord
   has_many :opening_times, dependent: :destroy
   has_many :restaurant_categories, dependent: :destroy
   has_many :categories, through: :restaurant_categories
-  has_one_attached :image
-  has_one_attached :logotype
+  # has_one_attached :image
+  # has_one_attached :logotype
 
   geocoded_by :address
 

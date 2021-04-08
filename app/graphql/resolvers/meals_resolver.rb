@@ -7,9 +7,12 @@ module Resolvers
     def resolve(lat:, lng:, **kwargs)
       super(kwargs) do
         if lat && lng
-          Meal.nearby(latitude: lat, longitude: lng, radius: 2)
+          Meal
+            .includes(:restaurant)
+            .nearby(latitude: lat, longitude: lng, radius: 2)
         else
           Meal
+            .includes(:restaurant)
         end
       end
     end

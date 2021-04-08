@@ -18,7 +18,7 @@ class Meal < ApplicationRecord
               minimum: 20,
               message: 'must be larger than 20 characters'
             }
-  validates :image, presence: true
+  validates :external_image_url, presence: true
   validates :restaurant, presence: true
   validates :latitude,
             presence: true,
@@ -55,7 +55,7 @@ class Meal < ApplicationRecord
   has_many :ingredients, through: :portions
   has_many :meal_categories, dependent: :destroy
   has_many :categories, through: :meal_categories
-  has_one_attached :image
+  # has_one_attached :image
 
   monetize :price_cents,
            allow_nil: false,

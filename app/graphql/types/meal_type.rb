@@ -3,6 +3,7 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :image, String, null: false
+    field :external_image_url, String, null: false
     field :description, String, null: false
     field :is_kosher, Boolean, null: false
     field :is_vegetarian, Boolean, null: false
