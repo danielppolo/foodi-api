@@ -20,7 +20,7 @@ module Types
           resolver: Resolvers::MealsResolver,
           description: 'Returns a list of near meals'
 
-    #     field :categories
+    #     field :categories 
     #           resolver: Resolver::CategoriesResolver,
     #           description: 'Returns the list of nearby categories.'
 
