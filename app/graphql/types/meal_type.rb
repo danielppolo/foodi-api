@@ -14,5 +14,6 @@ module Types
     field :preparation_time, Int, null: false
     field :popularity, Float, null: false
     field :restaurant, RestaurantType, null: false
+    field :distance, Float, null: true
   end
 end

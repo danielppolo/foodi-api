@@ -31,6 +31,11 @@ class Restaurant < ApplicationRecord
     geocoded.near([latitude, longitude], radius, select: select)
   }
 
+  scope :where_category, lambda { |category_id|
+    joins(:restaurant_categories)
+      .where(restaurant_categories: { category_id: category_id })
+  }
+
   scope :available, lambda { |now = Time.now|
     joins(:opening_times)
       .where('
@@ -42,12 +47,27 @@ class Restaurant < ApplicationRecord
              now.wday)
   }
 
-  def self.categories
+  scope :categories, lambda { |limit: 100|
     Category
-      .joins(:restaurant_categories)
       .distinct
-      .pluck(:name)
-  end
+      .take(limit)
+  }
+
+  scope :nearby_categories, lambda { |latitude:, longitude:, radius:|
+    Category
+      .select('subquery.name, subquery.id, COUNT(subquery.id) AS uniq_count')
+      .group('subquery.name, subquery.id')
+      .order(uniq_count: :desc)
+      .from(
+        nearby(
+          latitude: latitude,
+          longitude: longitude,
+          radius: radius,
+          select: 'categories.id, categories.name'
+        ).joins(:categories),
+        :subquery
+      )
+  }
 
   def coordinates
     [latitude, longitude]

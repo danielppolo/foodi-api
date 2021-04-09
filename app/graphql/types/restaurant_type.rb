@@ -16,6 +16,7 @@ module Types
     field :rating, Int, null: true
     field :schedule, ScheduleType, null: false
     field :store_type, String, null: true
+    field :distance, Float, null: true
     # field :category, Int, null: true
     # field :city, String, null: true
   end

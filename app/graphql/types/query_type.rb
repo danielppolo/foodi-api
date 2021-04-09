@@ -20,7 +20,12 @@ module Types
           resolver: Resolvers::MealsResolver,
           description: 'Returns a list of near meals'
 
-    #     field :categories 
+    field :categories,
+          authenticate: false,
+          resolver: Resolvers::CategoriesResolver,
+          description: 'Returns a list of near categories'
+
+    #     field :categories
     #           resolver: Resolver::CategoriesResolver,
     #           description: 'Returns the list of nearby categories.'
 

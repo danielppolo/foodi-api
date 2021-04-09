@@ -70,12 +70,17 @@ class Meal < ApplicationRecord
                    geocoded.near([latitude, longitude], radius, select: select)
                  }
 
-  scope :by_category, lambda { |category|
-    where(category: category)
+  scope :where_category, lambda { |category_id|
+    joins(:meal_categories)
+      .where(meal_categories: { category_id: category_id })
   }
 
-  scope :by_price, lambda { |max_price|
+  scope :where_price, lambda { |max_price|
     where('price_cents < ?', max_price * 100)
+  }
+
+  scope :where_restaurant, lambda { |restaurant_id|
+    where(restaurant_id: restaurant_id)
   }
 
   scope :available, lambda { |now = Time.now|
@@ -89,23 +94,27 @@ class Meal < ApplicationRecord
              now.wday)
   }
 
-  def self.categories
+  scope :categories, lambda { |limit: 100|
     Category
-      .joins(:meal_categories)
       .distinct
-      .pluck(:name)
-  end
+      .take(limit)
+  }
 
-  def self.nearby_categories(latitude:, longitude:, radius:)
-    geocoded
-      .near([latitude, longitude], radius, select: 'categories.name')
-      .joins(:categories)
-      .map(&:name)
-  end
-
-  def self.from(restaurant)
-    restaurant.meals
-  end
+  scope :nearby_categories, lambda { |latitude:, longitude:, radius:|
+    Category
+      .select('subquery.name, subquery.id, COUNT(subquery.id) AS uniq_count')
+      .group('subquery.name, subquery.id')
+      .order(uniq_count: :desc)
+      .from(
+        nearby(
+          latitude: latitude,
+          longitude: longitude,
+          radius: radius,
+          select: 'categories.id, categories.name'
+        ).joins(:categories),
+        :subquery
+      )
+  }
 
   def available?(now = Time.now)
     Meal
