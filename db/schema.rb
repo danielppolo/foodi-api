@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_04_053651) do
+ActiveRecord::Schema.define(version: 2021_04_10_181222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,6 +86,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_053651) do
     t.float "latitude"
     t.float "longitude"
     t.string "external_image_url"
+    t.string "provider"
+    t.string "external_id"
+    t.string "external_url"
     t.index ["restaurant_id"], name: "index_meals_on_restaurant_id"
   end
 
@@ -136,6 +139,9 @@ ActiveRecord::Schema.define(version: 2021_04_04_053651) do
     t.json "friendly_schedule"
     t.string "external_image_url"
     t.string "external_logo_url"
+    t.string "provider"
+    t.string "external_id"
+    t.string "external_url"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

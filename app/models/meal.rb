@@ -14,6 +14,9 @@ class Meal < ApplicationRecord
             }
   validates :description,
             presence: true
+
+  validates :description,
+            presence: true
   # length: {
   #   minimum: 20,
   #   message: 'must be larger than 20 characters'
@@ -70,23 +73,30 @@ class Meal < ApplicationRecord
                    geocoded.near([latitude, longitude], radius, select: select)
                  }
 
-  scope :where_category, lambda { |category_id|
+  scope :category, lambda { |category_id|
     joins(:meal_categories)
       .where(meal_categories: { category_id: category_id })
   }
 
-  scope :where_price, lambda { |max_price|
+  scope :price, lambda { |max_price|
     where('price_cents < ?', max_price * 100)
   }
 
-  scope :where_restaurant, lambda { |restaurant_id|
+  scope :restaurant, lambda { |restaurant_id|
     where(restaurant_id: restaurant_id)
   }
 
+  scope :no_drinks, lambda {
+    where(is_beverage: false)
+  }
+
+  scope :randomize, lambda {
+    order(Arel.sql('RANDOM()'))
+  }
+
   scope :available, lambda { |now = Time.now|
-    joins(:opening_times)
-      .where('
-              opening_times.start_time <= ?
+    joins(restaurant: [:opening_times])
+      .where('opening_times.start_time <= ?
               AND opening_times.end_time >= ?
               AND opening_times.weekday = ?',
              now + now.gmt_offset,
@@ -117,10 +127,8 @@ class Meal < ApplicationRecord
   }
 
   def available?(now = Time.now)
-    Meal
-      .joins(:opening_times)
-      .where('
-            opening_times.start_time <= ?
+    joins(restaurant: [:opening_times])
+      .where('opening_times.start_time <= ?
             AND opening_times.end_time >= ?
             AND opening_times.weekday = ?
             AND meals.id = ?',

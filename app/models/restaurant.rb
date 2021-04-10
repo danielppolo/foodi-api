@@ -53,6 +53,10 @@ class Restaurant < ApplicationRecord
       .take(limit)
   }
 
+  scope :randomize, lambda {
+    order('random()')
+  }
+
   scope :nearby_categories, lambda { |latitude:, longitude:, radius:|
     Category
       .select('subquery.name, subquery.id, COUNT(subquery.id) AS uniq_count')

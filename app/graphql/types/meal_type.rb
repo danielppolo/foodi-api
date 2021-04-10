@@ -3,7 +3,6 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :image, String, null: false
-    field :external_image_url, String, null: false
     field :description, String, null: false
     field :is_kosher, Boolean, null: false
     field :is_vegetarian, Boolean, null: false
@@ -15,5 +14,9 @@ module Types
     field :popularity, Float, null: false
     field :restaurant, RestaurantType, null: false
     field :distance, Float, null: true
+    field :provider, String, null: true
+    field :external_id, String, null: true
+    field :external_url, String, null: true
+    field :external_image_url, String, null: false
   end
 end
