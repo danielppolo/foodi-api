@@ -127,7 +127,7 @@ BLACKLIST = %w[
 ].freeze
 
 module RappiServices
-  class Parser
+  class MexicoParser
     def parse(data)
       restaurant = parse_restaurant(data)
       parse_meals(data, restaurant) if restaurant
@@ -208,7 +208,7 @@ module RappiServices
       return unless categories
 
       categories.each do |category|
-        puts "  `#{category.name}`".yellow
+        puts "  `#{category.name}`".blue
         RestaurantCategory.create!(restaurant: restaurant, category: category) if restaurant
         MealCategory.create!(meal: meal, category: category) if meal
       end
