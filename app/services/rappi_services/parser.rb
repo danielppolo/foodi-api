@@ -55,6 +55,10 @@ BEBIDAS = %w[
   light
   ciel
   natural
+  lata
+  embotellada
+  botella
+  drink
 ].freeze
 
 UNITS = %w[
@@ -68,6 +72,8 @@ BEER = %w[
   cerveza
   corona
   victoria
+  ultra
+  beer
 ].freeze
 
 COFFEE = %w[
