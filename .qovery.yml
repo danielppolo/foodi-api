@@ -1,0 +1,15 @@
+---
+application:
+  name: "foodi-api"
+  project: "foodie-poc"
+  organization: "QoveryCommunity"
+databases:
+- type: "POSTGRESQL"
+  name: "foodi_api_production"
+  version: "11"
+routers:
+- name: "main-foodi-api"
+  routes:
+  - application_name: "foodi-api"
+    paths:
+    - "/*"
