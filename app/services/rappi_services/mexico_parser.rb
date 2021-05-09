@@ -185,6 +185,8 @@ module RappiServices
             latitude: restaurant.latitude,
             longitude: restaurant.longitude,
             provider: 'rappi',
+            is_vegan: vegan?(meal[:name], meal[:description], restaurant.name),
+            is_vegetarian: vegetarian?(meal[:name], meal[:description], restaurant.name),
             external_id: restaurant[:id],
             external_url: build_url(meal_id: meal[:id], store_id: meal[:store_id]),
             is_beverage: beverage?(meal[:name].strip.downcase) || beverage?(group[:name].strip.downcase)
@@ -285,6 +287,14 @@ module RappiServices
 
       return "https://www.rappi.com.mx/restaurantes/#{store_id}/product/#{meal_id}" if meal_id && store_id
       return "https://www.rappi.com.mx/restaurantes/#{store_id}" if store_id
+    end
+
+    def vegan?(*words)
+      words.any? { |word| word.downcase.include? 'vegan' }
+    end
+
+    def vegetarian?(*words)
+      words.any? { |word| word.downcase.include? 'vegetarian' }
     end
   end
 end
