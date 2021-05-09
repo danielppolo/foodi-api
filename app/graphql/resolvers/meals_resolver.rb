@@ -10,7 +10,7 @@ module Resolvers
     argument :beverage, Boolean, required: false
 
     def resolve(lat: nil, lng: nil, category: nil, restaurant: nil, vegan: nil, vegetarian: nil, beverage: nil, **kwargs)
-      super(shuffle: true, **kwargs) do
+      super(**kwargs) do
         Meal
           .includes(:restaurant)
           .nearby(latitude: lat, longitude: lng, radius: 2)

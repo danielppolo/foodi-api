@@ -4,5 +4,6 @@ module Types
     field :next, Int, null: true
     field :prev, Int, null: true
     field :pages, Int, null: true
+    field :current, Int, null: true
   end
 end
