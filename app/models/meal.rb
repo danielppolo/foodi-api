@@ -126,7 +126,7 @@ class Meal < ApplicationRecord
     Category
       .select('subquery.name, subquery.id, COUNT(subquery.id) AS uniq_count')
       .group('subquery.name, subquery.id')
-      .order(uniq_count: :desc)
+      .order(uniq_count: :desc) # TODO: Return random where uniq_count > X
       .from(
         nearby(
           latitude: latitude,

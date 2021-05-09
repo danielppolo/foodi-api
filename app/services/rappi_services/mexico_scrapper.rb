@@ -16,6 +16,7 @@ module RappiServices
     def get_restaurants(lat:, lng:)
       return [] unless lat && lng
 
+      auth
       fetch_restaurants(lat: lat, lng: lng)
     end
 
