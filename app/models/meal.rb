@@ -70,7 +70,9 @@ class Meal < ApplicationRecord
            }
 
   scope :nearby, lambda { |latitude:, longitude:, radius:, select: nil|
-                   geocoded.near([latitude, longitude], radius, select: select)
+                   if latitude.present? && longitude.present?
+                     geocoded.near([latitude, longitude], radius, select: select)
+                   end
                  }
 
   scope :category, lambda { |category_id = nil|
@@ -88,16 +90,16 @@ class Meal < ApplicationRecord
     where(restaurant_id: restaurant_id)  if restaurant_id.present?
   }
 
-  scope :drinks, lambda { |bool = false|
-    where(is_beverage: bool)
+  scope :beverages, lambda { |bool = nil|
+    where(is_beverage: bool) unless bool.nil?
   }
 
-  scope :vegan, lambda { |bool = false|
-    where(is_vegan: bool)
+  scope :vegan, lambda { |bool = nil|
+    where(is_vegan: bool) unless bool.nil?
   }
 
-  scope :vegetarian, lambda { |bool = false|
-    where(is_vegetarian: bool)
+  scope :vegetarian, lambda { |bool = nil|
+    where(is_vegetarian: bool) unless bool.nil?
   }
 
   scope :randomize, lambda {

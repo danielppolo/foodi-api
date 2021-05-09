@@ -1,14 +1,15 @@
 module Resolvers
   class MealsResolver < ListResolver
     type Types::MealListType, null: false
-    argument :lat, Float, required: true
-    argument :lng, Float, required: true
+    argument :lat, Float, required: false
+    argument :lng, Float, required: false
     argument :category, ID, required: false
     argument :restaurant, ID, required: false
     argument :vegan, Boolean, required: false
     argument :vegetarian, Boolean, required: false
+    argument :beverage, Boolean, required: false
 
-    def resolve(lat:, lng:, category: nil, restaurant: nil, vegan: false, vegetarian: false, **kwargs)
+    def resolve(lat: nil, lng: nil, category: nil, restaurant: nil, vegan: nil, vegetarian: nil, beverage: nil, **kwargs)
       super(shuffle: true, **kwargs) do
         Meal
           .includes(:restaurant)
@@ -17,7 +18,7 @@ module Resolvers
           .category(category)
           .vegan(vegan)
           .vegetarian(vegetarian)
-          .drinks(false)
+          .beverages(beverage)
       end
     end
   end
