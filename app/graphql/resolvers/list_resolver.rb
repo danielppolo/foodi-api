@@ -6,12 +6,12 @@ module Resolvers
     argument :shuffle, Boolean, required: false, default_value: false
 
     def resolve(page:, limit:, random:, shuffle:)
-      count = yield.page(page).per(limit).total_count
+      count = yield.count(:all)
       pages = (count / limit).ceil
       current = random ? rand(pages) : page
       prev_page = current == 1 || pages < current ? nil : current - 1
       next_page = pages <= current ? nil : current + 1
-      results = shuffle ? yield.order(:id).page(current).per(limit).shuffle : yield.page(current).per(limit)
+      results = shuffle ? yield.reorder(:id).page(current).per(limit).shuffle : yield.page(current).per(limit)
       {
         count: count,
         current: current,
