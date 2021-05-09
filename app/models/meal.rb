@@ -73,21 +73,31 @@ class Meal < ApplicationRecord
                    geocoded.near([latitude, longitude], radius, select: select)
                  }
 
-  scope :category, lambda { |category_id|
-    joins(:meal_categories)
-      .where(meal_categories: { category_id: category_id })
+  scope :category, lambda { |category_id = nil|
+    if category_id.present?
+      joins(:meal_categories)
+        .where(meal_categories: { category_id: category_id })
+    end
   }
 
   scope :price, lambda { |max_price|
     where('price_cents < ?', max_price * 100)
   }
 
-  scope :restaurant, lambda { |restaurant_id|
-    where(restaurant_id: restaurant_id)
+  scope :restaurant, lambda { |restaurant_id = nil|
+    where(restaurant_id: restaurant_id)  if restaurant_id.present?
   }
 
-  scope :no_drinks, lambda {
-    where(is_beverage: false)
+  scope :drinks, lambda { |bool = false|
+    where(is_beverage: bool)
+  }
+
+  scope :vegan, lambda { |bool = false|
+    where(is_vegan: bool)
+  }
+
+  scope :vegetarian, lambda { |bool = false|
+    where(is_vegetarian: bool)
   }
 
   scope :randomize, lambda {
@@ -104,7 +114,7 @@ class Meal < ApplicationRecord
              now.wday)
   }
 
-  scope :categories, lambda { |limit: 100|
+  scope :categories, lambda { |limit = 100|
     Category
       .distinct
       .take(limit)

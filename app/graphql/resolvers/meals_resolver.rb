@@ -4,21 +4,20 @@ module Resolvers
     argument :lat, Float, required: true
     argument :lng, Float, required: true
     argument :category, ID, required: false
+    argument :restaurant, ID, required: false
+    argument :vegan, Boolean, required: false
+    argument :vegetarian, Boolean, required: false
 
-    def resolve(lat:, lng:, category: nil, **kwargs)
+    def resolve(lat:, lng:, category: nil, restaurant: nil, vegan: false, vegetarian: false, **kwargs)
       super(shuffle: true, **kwargs) do
-        if category
-          Meal
-            .includes(:restaurant)
-            .nearby(latitude: lat, longitude: lng, radius: 2)
-            .category(category)
-            .no_drinks
-        else
-          Meal
-            .includes(:restaurant)
-            .nearby(latitude: lat, longitude: lng, radius: 2)
-            .no_drinks
-        end
+        Meal
+          .includes(:restaurant)
+          .nearby(latitude: lat, longitude: lng, radius: 2)
+          .restaurant(restaurant)
+          .category(category)
+          .vegan(vegan)
+          .vegetarian(vegetarian)
+          .drinks(false)
       end
     end
   end
