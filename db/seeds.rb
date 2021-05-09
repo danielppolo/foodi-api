@@ -11,7 +11,7 @@ Category.destroy_all
 mexico = RappiServices::MexicoScrapper.new
 parser = RappiServices::MexicoParser.new
 
-source = Rails.root.join('db', 'data', 'mexico_city_coordinates.csv')
+source = Rails.root.join('db', 'data', 'mexico_coordinates.csv')
 CSV.foreach(source, col_sep: ',', quote_char: '"', headers: :first_row) do |row|
   puts row['city'].to_s.yellow
   restaurants = mexico.get_restaurants(lat: row['lat'].to_f, lng: row['lng'].to_f)
