@@ -6,8 +6,7 @@ module Resolvers
 
     def resolve(lat:, lng:, **kwargs)
       super(kwargs) do
-        Meal
-          .nearby_categories(latitude: lat, longitude: lng, radius: 2)
+        Meal.nearby_categories(latitude: lat, longitude: lng, radius: 2)
       end
     end
   end

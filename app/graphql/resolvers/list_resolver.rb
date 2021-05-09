@@ -6,7 +6,7 @@ module Resolvers
     argument :shuffle, Boolean, required: false, default_value: false
 
     def resolve(page:, limit:, random:, shuffle:)
-      count = yield.count(:all)
+      count = yield.page(page).per(limit).total_count # Works with geocoder query.
       pages = (count / limit).ceil
       current = random ? rand(pages) : page
       prev_page = current == 1 || pages < current ? nil : current - 1
